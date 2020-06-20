@@ -234,6 +234,13 @@
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/20/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%AC%AC%E4%B8%80%E6%AD%A5/" rel="next" title="搭建博客第一步">
+      搭建博客第一步 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -306,7 +313,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -362,7 +369,7 @@
       var url = decodeURI(visitors.id);
       var title = visitors.dataset.flagTitle;
 
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+      Counter('get', `/classes/Counter?where=${encodeURIComponent(JSON.stringify({ url }))}&limit=1`)
         .then(response => response.json())
         .then(({ results }) => {
           if (results.length > 0) {
@@ -373,14 +380,9 @@
                 console.error('Failed to save visitor count', error);
               });
           } else {
-              Counter('post', '/classes/Counter', { title, url, time: 1 })
-                .then(response => response.json())
-                .then(() => {
-                  leancloudSelector(url).innerText = 1;
-                })
-                .catch(error => {
-                  console.error('Failed to create', error);
-                });
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
           }
         })
         .catch(error => {
@@ -394,7 +396,7 @@
         return decodeURI(element.id);
       });
 
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+      Counter('get', `?where=${encodeURIComponent(JSON.stringify({ url: { '$in': entries } }))}`)
         .then(response => response.json())
         .then(({ results }) => {
           for (let url of entries) {
@@ -407,7 +409,7 @@
         });
     }
 
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"Wa9jJQ1UINQ047FtwUExpeLj-MdYXbMMI","app_key":"5bws7byAceWKottXj2D4aCqx","server_url":null,"security":false,"Counter_count":true};
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"Wa9jJQ1UINQ047FtwUExpeLj-MdYXbMMI","app_key":"5bws7byAceWKottXj2D4aCqx","server_url":null,"security":true,"Counter_count":true};
     function fetchData(api_server) {
       var Counter = (method, url, data) => {
         return fetch(`${api_server}/1.1${url}`, {
