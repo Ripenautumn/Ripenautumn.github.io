@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>正则表达式 | Hexo</title><meta name="description" content="正则表达式（构造器RegExp）——JavaScript中的RegExp对象 正则：规律、规则 表达式：有一些普通字符和特殊字符组成 强大的字符串匹配工具 对字符串操作的一种逻辑公式 表达对字符串的一种过滤逻辑 正则表达式是匹配模式，要么匹配字符，要么匹配位置   正则表达式测试工具 https:&#x2F;&#x2F;regex101.com&#x2F; https:&#x2F;&#x2F;jex.im&#x2F;regulex&#x2F; 创建正则表达式①、ne"><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yoursite.com/2020/06/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="正则表达式"><meta property="og:url" content="http://yoursite.com/2020/06/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="正则表达式（构造器RegExp）——JavaScript中的RegExp对象 正则：规律、规则 表达式：有一些普通字符和特殊字符组成 强大的字符串匹配工具 对字符串操作的一种逻辑公式 表达对字符串的一种过滤逻辑 正则表达式是匹配模式，要么匹配字符，要么匹配位置   正则表达式测试工具 https:&#x2F;&#x2F;regex101.com&#x2F; https:&#x2F;&#x2F;jex.im&#x2F;regulex&#x2F; 创建正则表达式①、ne"><meta property="og:image" content="https://i.loli.net/2020/06/30/r2RkmbAJNzFYCv3.jpg"><meta property="article:published_time" content="2020-06-24T04:02:04.049Z"><meta property="article:modified_time" content="2020-06-30T14:53:49.831Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="prev" title="减肥" href="http://yoursite.com/2020/06/30/%E5%87%8F%E8%82%A5/"><link rel="next" title="Hello World" href="http://yoursite.com/2020/06/01/hello-world/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down menus-expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式（构造器RegExp）"><span class="toc-number">1.</span> <span class="toc-text">正则表达式（构造器RegExp）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建正则表达式"><span class="toc-number">1.1.</span> <span class="toc-text">创建正则表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#正则方法"><span class="toc-number">1.2.</span> <span class="toc-text">正则方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#正则表达式符号"><span class="toc-number">1.3.</span> <span class="toc-text">正则表达式符号</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#元字符"><span class="toc-number">1.3.1.</span> <span class="toc-text">元字符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#锚字符"><span class="toc-number">1.3.2.</span> <span class="toc-text">锚字符</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/06/30/r2RkmbAJNzFYCv3.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Hexo</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down menus-expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">正则表达式</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="Created 2020-06-24 12:02:04"><i class="far fa-calendar-alt fa-fw"></i> Created 2020-06-24</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="Updated 2020-06-30 22:53:49"><i class="fas fa-history fa-fw"></i> Updated 2020-06-30</span></time></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta__icon"></i><span>Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h3 id="正则表达式（构造器RegExp）"><a href="#正则表达式（构造器RegExp）" class="headerlink" title="正则表达式（构造器RegExp）"></a>正则表达式（构造器RegExp）</h3><p>——JavaScript中的RegExp对象</p>
+<p>正则：规律、规则</p>
+<p>表达式：有一些普通字符和特殊字符组成</p>
+<p>强大的字符串匹配工具</p>
+<p>对字符串操作的一种逻辑公式</p>
+<p>表达对字符串的一种过滤逻辑</p>
+<p>正则表达式是匹配模式，要么匹配字符，要么匹配位置</p>
+<img src= "/img/loading.gif" data-src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20200505144532559.png" alt="image-20200505144532559" style="zoom:50%;" />
+
+<p>正则表达式测试工具</p>
+<p><a href="https://regex101.com/" target="_blank" rel="noopener">https://regex101.com/</a></p>
+<p><a href="https://jex.im/regulex/" target="_blank" rel="noopener">https://jex.im/regulex/</a></p>
+<h4 id="创建正则表达式"><a href="#创建正则表达式" class="headerlink" title="创建正则表达式"></a>创建正则表达式</h4><p>①、new 运算符        <code>new RegExp(pattern, flags)</code><br>   <code>var box = new RegExp(&#39;box&#39;);         //第一个参数字符串</code><br>   <code>var box = new RegExp(&#39;box&#39;,&#39;ig&#39;);   //第二个参数可选模式修饰符</code><br> ②、字面量方式       <code>/pattern/ flags</code><br>   <code>var box = /box/;       //直接用两个反斜杠</code><br>   <code>var box = /box/ig;    //在第二个斜杠后面加上模式修饰符</code></p>
+<p>修饰符：每个正则表达式都可带一个或多个标志（flags），标明正则表达式的行为</p>
+<p>==模式修饰符的可选参数：==</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">i</td>
+<td align="center">忽略大小写</td>
+</tr>
+<tr>
+<td align="center">g</td>
+<td align="center">全局匹配</td>
+</tr>
+<tr>
+<td align="center">m</td>
+<td align="center">多行匹配</td>
+</tr>
+</tbody></table>
+<p>==转义字符：==</p>
+<p>元字符是具有特殊含义的字符，不能直接匹配使用的，必须使用反斜线（\） 作为前缀进行转义后才能使用。</p>
+<p><code>var pattern = new RegExp(&#39;\\\\&#39;);  //先解析为字符串，再解析为正则</code></p>
+<p>一般不推荐使用构造函数生成正则，而应该优先使用字面量。<br> <code>var pattern = new RegExp(&quot;^\\d+&quot;,&quot;g&quot;); //注意，反斜杠需要转义</code><br> <code>var pattern =/^\d+/g;</code><br> 构造函数会需要多写一个 <br> 构造函数的匹配模式可以使用变量（可动态获取字符串），但是字面量不能够使用变量代替</p>
+<h4 id="正则方法"><a href="#正则方法" class="headerlink" title="正则方法"></a>正则方法</h4><p>RegExp原型方法：基于原型对象 RegExp.prototype</p>
+<ul>
+<li>test()：检索字符串中指定的值，返回true或false      regObject.test(str);</li>
+<li>exec()：检索字符串中指定的值，返回找到的值，并确定其位置     regObject.exec(str);</li>
+</ul>
+<p>String原型方法（前三个一般与正则表达式搭配使用）</p>
+<ul>
+<li><p>replace()：</p>
+<p><code>strObject.replace(regexp,&#39;replaceString&#39;);</code></p>
+<p>对字符串中特定格式的子串进行替换，返回替换后的结果<br>第一个参数既可以是一个固定的子串，也可以是一个正则表达式对象</p>
+</li>
+<li><p>match()</p>
+<p><code>strObject.match(regexp);</code><br> 一个或多个子串、正则表达式的匹配<br> 匹配成功返回一个数组，匹配不成功返回null；多个匹配返回匹配到的内容</p>
+</li>
+<li><p>search()</p>
+<p><code>strObject.search(regexp);</code><br> 返回第一次出现匹配指定正则表达式子串的下标，若没有匹配则返回 -1<br> indexOf() 作用类似，但 indexOf() 不支持正则表达式</p>
+</li>
+<li><p>split()</p>
+<p>strObject.split(regexp,[howmany]);<br>用一个指定的字符串或正则表达式，对原字符串进行拆分，返回拆得的子串数组<br>若指定了 howmany 属性，则只返回拆得的前 howmany 个子串</p>
+</li>
+</ul>
+<h4 id="正则表达式符号"><a href="#正则表达式符号" class="headerlink" title="正则表达式符号"></a>正则表达式符号</h4><h5 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h5><ul>
+<li><p>拥有特殊含义的字符</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>元字符</strong></th>
+<th align="left"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">.</td>
+<td align="left">匹配任意单个字符，换行符除外</td>
+</tr>
+<tr>
+<td align="left">\w</td>
+<td align="left">匹配字母、数字、下划线（字符）</td>
+</tr>
+<tr>
+<td align="left">\W</td>
+<td align="left">匹配非字母、数字、下划线（非字符）</td>
+</tr>
+<tr>
+<td align="left">\d</td>
+<td align="left">匹配数字</td>
+</tr>
+<tr>
+<td align="left">\D</td>
+<td align="left">匹配非数字</td>
+</tr>
+<tr>
+<td align="left">\s</td>
+<td align="left">匹配空格字符</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配非空格字符</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">匹配换行符</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="锚字符"><a href="#锚字符" class="headerlink" title="锚字符"></a>锚字符</h5><ul>
+<li><p>用于查找某个位置</p>
+<table>
+<thead>
+<tr>
+<th align="left">锚字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">^</td>
+<td align="left">匹配字符串的开头</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">匹配字符串的结尾</td>
+</tr>
+<tr>
+<td align="left">\b</td>
+<td align="left">匹配字符串的边界</td>
+</tr>
+<tr>
+<td align="left">\B</td>
+<td align="left">匹配字符串的非边界</td>
+</tr>
+<tr>
+<td align="left">(?=exp)</td>
+<td align="left">匹配其后紧接exp的字符串</td>
+</tr>
+<tr>
+<td align="left">(?!exp)</td>
+<td align="left">匹配其后没有紧接exp的字符串（exp代表任意表达式）</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2020/06/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">http://yoursite.com/2020/06/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/07/05/IKFTrsiegQH1WUP.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/06/30/%E5%87%8F%E8%82%A5/"><img class="prev-cover" data-src="https://i.loli.net/2020/07/05/IKFTrsiegQH1WUP.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">减肥</div></div></a></div><div class="next-post pull-right"><a href="/2020/06/01/hello-world/"><img class="next-cover" data-src="https://i.loli.net/2020/07/05/K4M6QvwZbyn2cCz.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Hello World</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By John Doe</div><div class="framework-info"><span>Driven </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font_plus" title="Increase Font Size"><i class="fas fa-plus"></i></button><button id="font_minus" title="Decrease Font Size"><i class="fas fa-minus"></i></button><button class="translate_chn_to_cht" id="translateLink" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="Setting"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script></body></html>
